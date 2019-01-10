@@ -35,5 +35,6 @@ public class Standard implements Serializable{
 	private String operator; // 操作员
 	@Column(name = "C_OPERATING_COMPANY")
 	private String operatingCompany; // 操作单位
-
+	@Column(name = "C_ISDELETE")
+	private String isDelete;//是否删除
 }
