@@ -144,9 +144,11 @@
                     }
                     //执行删除操作
                     $.messager.confirm('温馨提示', '您确定要删除吗?', function(r){if (r){
+						var id = [];
                         $.each(ids,function () {
-                            var id = this.id;
-                            $.get("../../standerd/deleteById?id="+id,function (response) {
+							id.push(this.id);
+                        })
+                        $.get("../../standerd/deleteByIds?ids="+id,function (response) {
                                 $.messager.show({//炒作成功
                                     title:'消息提示',
                                     msg:response.message,
@@ -158,10 +160,10 @@
                                 if (response.success){
                                     //重新加载
                                     $('#grid').datagrid("reload");
-                                    ids.splice(this,1);
-                                }
+                                    $('#grid').datagrid("clearChecked");
+								}
                             },"json")
-                        });
+
 
 					}
 
@@ -173,7 +175,22 @@
 				text : '还原',
 				iconCls : 'icon-save',
 				handler : function(){
-					alert('还原');
+					//alert('还原');
+					$.get("../../standerd/repeal",function (response) {
+                        $.messager.show({//炒作成功
+                            title:'消息提示',
+                            msg:response.message,
+                            timeout:5000,
+                            showType:'slide'
+
+                        });
+                        //操作成功后
+                        if (response.success){
+                            //重新加载
+                            $('#grid').datagrid("reload");
+
+                        }
+                    })
 				}
 			}];
 			

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @author Jim-gongtiancheng
  * @create 2019 - 01 - 09 20:12
@@ -31,6 +33,15 @@ public class StandardServiceImpl implements StanderdService {
 
     @Override
     public void deleteById(Integer id) {
-        standardDao.deleteById(id);
+        Optional<Standard> standard = standardDao.findById(id);
+        Standard standard1 = standard.get();
+        standard1.setIsDelete("0");
+        standardDao.save(standard1);
+        //standardDao.deleteById(id);
+    }
+
+    @Override
+    public Standard findById(Integer value) {
+        return standardDao.findById(value).get();
     }
 }

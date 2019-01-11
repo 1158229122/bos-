@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jim-gongtiancheng
@@ -38,6 +40,43 @@ public class AdminController {
         if (admin.size()>1){
             throw new RuntimeException("结果集不唯一");
         }
+        req.getSession().setAttribute("user",admin.get(0));
         return new ResponseResult(true,"登录成功");
+    }
+    @RequestMapping("getMessage")
+    public Map getMessage(HttpServletRequest req){
+        Map<String,String> map = new HashMap<String,String>();
+        Admin user = (Admin) req.getSession().getAttribute("user");
+        map.put("uil",getIpAddress(req));
+        if (user!=null){
+            map.put("name",user.getName());
+        }
+
+        return map;
+    }
+
+    /**
+     * 获取用户真实的IP地址
+     * @param request
+     * @return
+     */
+    public String getIpAddress(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 }

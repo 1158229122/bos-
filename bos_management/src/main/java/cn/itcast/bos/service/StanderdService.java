@@ -28,4 +28,11 @@ public interface StanderdService {
      * @param id
      */
     void deleteById(Integer id);
+
+    /**
+     * 根据id查询
+     * @param value
+     * @return
+     */
+    Standard findById(Integer value);
 }
