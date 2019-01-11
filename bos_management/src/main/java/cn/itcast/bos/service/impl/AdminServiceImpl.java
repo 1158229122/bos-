@@ -1,4 +1,4 @@
-package cn.itcast.bos.service.impl.impl;
+package cn.itcast.bos.service.impl;
 
 import cn.itcast.bos.dao.AdminDao;
 import cn.itcast.bos.domain.base.Admin;
@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author Jim-gongtiancheng
- * @create 2019 - 01 - 09 20:49
+ * @create 2019 - 01 - 11 11:40
  */
 @Service
 public class AdminServiceImpl implements AdminService {

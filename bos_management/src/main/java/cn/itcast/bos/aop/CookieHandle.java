@@ -54,15 +54,7 @@ public class CookieHandle {
             String responseValue = null;
            Standard standard = (Standard) args[0];
             System.out.println(standard.getId());
-           if (standard.getId()==null){
-//               //执行的保存操作
-//               Map map = new HashMap();
-//               map.put("save",standard);
-//               maps.add(map);
-//               responseValue = JSON.toJSONString(maps);
-//               //响应给浏览器
-//               CookieUtil.setCookie(request,response,"repeal",responseValue,60*60*24,"UTF-8");
-           }else {
+           if (standard.getId()!=null){
                //执行了修改的操作
                Map map = new HashMap();
                Optional<Standard> optionalStandard = standardDao.findById(standard.getId());
@@ -73,9 +65,7 @@ public class CookieHandle {
                //响应给浏览器
                CookieUtil.setCookie(request,response,"repeal",responseValue,60*60*24,"UTF-8");
            }
-
         }
-
         if ("deleteById".equals(methodName)){
             //执行了删除方法
             Map map = new HashMap();
