@@ -35,8 +35,7 @@
                                 timeout:5000,
                                 showType:'slide'
                             });
-                            //$('#standardForm').children().get(0).reset();//成功重置表单
-                            //清空表单数据
+							//清空表单数据
                             $('#standardForm').children().form("reset");
                             //将选项款关闭
                             $('#standardForm').window('close');
@@ -90,6 +89,8 @@
 				iconCls : 'icon-add',
 				handler : function(){
 					//alert('增加');
+                    //清空表单数据
+                    $('#standardForm').children().form("reset");
                     open();//重置
 				}
 			}, {

@@ -32,7 +32,7 @@ public class CookieHandle {
     //访问的方法
     private Method method;
 
-    @Before("execution(* cn.itcast.bos.controller.*.*(..))")
+    @Before("execution(* cn.itcast.bos.service.*.*(..))")
     public void doBefore(JoinPoint jp) throws NoSuchMethodException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
@@ -48,7 +48,9 @@ public class CookieHandle {
         clazz = jp.getTarget().getClass(); //具体要访问的类
         String methodName = jp.getSignature().getName(); //获取访问的方法的名称
         Object[] args = jp.getArgs();//获取访问的方法的参数
-
+        if (args==null||args.length==0){
+            return;
+        }
         //如果方法名为save
         if ("save".equals(methodName)){
             String responseValue = null;
@@ -59,7 +61,7 @@ public class CookieHandle {
                Map map = new HashMap();
                Optional<Standard> optionalStandard = standardDao.findById(standard.getId());
                Standard updateStandard = optionalStandard.get();
-               map.put("update",updateStandard);
+               map.put("update-standerd",updateStandard);
                maps.add(map);
                responseValue = JSON.toJSONString(maps);
                //响应给浏览器
@@ -71,11 +73,11 @@ public class CookieHandle {
             Map map = new HashMap();
             Integer[] ids = (Integer[]) args[0];
             System.out.println(Arrays.toString(ids));
-            map.put("delete",ids);
+            map.put("delete-standerd",ids);
             maps.add(map);
             String responseValue = JSON.toJSONString(maps);
             //响应给浏览器
-            System.out.println(responseValue);
+            System.out.println(responseValue+"执行了方法");
             CookieUtil.setCookie(request,response,"repeal",responseValue,60*60*24,"UTF-8");
         }
     }

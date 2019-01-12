@@ -59,9 +59,7 @@ public class StanderdController {
     @RequestMapping("deleteByIds")
     public ResponseResult deleteById(Integer[] ids){
         try {
-            for (Integer id : ids) {
-                standerdService.deleteById(id);
-            }
+            standerdService.deleteById(ids);
             return  ResponseResult.SUCCESS();
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +82,7 @@ public class StanderdController {
             for (Object o : map.keySet()) {
                 String key = (String) o;
 
-                if ("update".equals(key)){
+                if ("update-standerd".equals(key)){
                     //是更新
                     Object value =  map.get(key);
                     String s = JSON.toJSONString(value);
@@ -93,7 +91,7 @@ public class StanderdController {
                     //执行跟新还原
                     standerdService.save(standard);
                 }
-                if ("delete".equals(key)){
+                if ("delete-standerd".equals(key)){
                     //是删除
                     String idStr = JSON.toJSONString(map.get(key));
                     List<Integer> values = JSON.parseArray(idStr, Integer.class);

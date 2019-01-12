@@ -1,11 +1,9 @@
 package cn.itcast.bos.controller;
 
-
 import cn.itcast.bos.domain.base.Admin;
 import cn.itcast.bos.domain.common.ResponseResult;
 import cn.itcast.bos.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("admin")
 public class AdminController {
-    @Autowired(required=true)
+    @Autowired
     private AdminService adminService;
 
     @RequestMapping("login")
@@ -33,10 +31,8 @@ public class AdminController {
             //清空验证码
             return new ResponseResult(false,"验证码不正确");
         }
-        System.out.println(adminService);
 
         List<Admin> admin = adminService.login(loginAdmin);
-
         System.out.println(admin);
         if (admin==null||admin.size()==0){
             return new ResponseResult(false,"账号或者密码不正确");
@@ -48,41 +44,13 @@ public class AdminController {
         return new ResponseResult(true,"登录成功");
     }
     @RequestMapping("getMessage")
-    public Map getMessage(HttpServletRequest req){
-        Map<String,String> map = new HashMap<String,String>();
-        Admin user = (Admin) req.getSession().getAttribute("user");
-        map.put("uil",getIpAddress(req));
+    private Map getMessage(HttpServletRequest request){
+        Map map= new HashMap();
+        Admin user = (Admin) request.getSession().getAttribute("user");
         if (user!=null){
-            map.put("name",user.getName());
+            map.put("name",((Admin) request.getSession().getAttribute("user")).getName());
         }
-
+        map.put("uil",request.getLocalAddr());
         return map;
     }
-
-    /**
-     * 获取用户真实的IP地址
-     * @param request
-     * @return
-     */
-    public String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-
 }

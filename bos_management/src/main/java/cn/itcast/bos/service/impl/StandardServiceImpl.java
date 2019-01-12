@@ -4,7 +4,6 @@ import cn.itcast.bos.dao.StandardDao;
 import cn.itcast.bos.domain.base.Standard;
 import cn.itcast.bos.service.StanderdService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,11 +31,13 @@ public class StandardServiceImpl implements StanderdService {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        Optional<Standard> standard = standardDao.findById(id);
-        Standard standard1 = standard.get();
-        standard1.setIsDelete("0");
-        standardDao.save(standard1);
+    public void deleteById(Integer[] ids) {
+        for (Integer id : ids) {
+            Optional<Standard> standard = standardDao.findById(id);
+            Standard standard1 = standard.get();
+            standard1.setIsDelete("0");
+            standardDao.save(standard1);
+        }
         //standardDao.deleteById(id);
     }
 

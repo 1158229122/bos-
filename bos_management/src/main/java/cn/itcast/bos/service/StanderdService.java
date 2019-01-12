@@ -27,7 +27,7 @@ public interface StanderdService {
      * 根据id删除
      * @param id
      */
-    void deleteById(Integer id);
+    void deleteById(Integer[] id);
 
     /**
      * 根据id查询

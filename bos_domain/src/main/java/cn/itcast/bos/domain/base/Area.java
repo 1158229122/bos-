@@ -36,6 +36,8 @@ public class Area {
 	private String citycode; // 城市编码
 	@Column(name = "C_SHORTCODE")
 	private String shortcode; // 简码
+	@Column(name = "C_ISDELETE")
+	private String isDelete;//是否删除
 
 	@OneToMany(mappedBy = "area")
 	private Set<SubArea> subareas = new HashSet<SubArea>();
